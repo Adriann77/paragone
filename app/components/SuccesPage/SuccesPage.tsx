@@ -1,42 +1,30 @@
 'use client'
 import Link from 'next/link'
 import React from 'react'
-import { Logo } from '../Icons/Icons'
 
-interface Props {
-  image: string
-}
+import { ReceiptAddSucces } from '../Icons/LargerImages'
 
-const SuccesPage = ({ image }: Props) => {
+const SuccesPage = () => {
   return (
     <div className="flex flex-col items-center justify-center gap-8">
       <h3 className="text-center text-4xl">Paragon dodany</h3>
-      {image !== '' ? (
-        <img
-          src={`${image}`}
-          alt="paragon"
-          className="h-[296px] w-[361px] rounded-xl"
-        />
-      ) : (
-        <div className="flex h-[296px] w-[361px] items-center justify-center rounded-xl bg-[#EEEBEB]">
-          <Logo />
-        </div>
-      )}
-      <div className="flex w-full flex-col gap-3">
+
+      <div className="py-16">
+        <ReceiptAddSucces />
+      </div>
+
+      <div className="flex w-[393px] flex-col gap-3 px-4">
         <Link
-          className="w-[100%] rounded-xl bg-[#3F5FE3] py-4 text-center text-white"
+          className="button-blue"
           onClick={() => {
             window.location.reload()
           }}
           href={'/dashboard'}
         >
-          chcę dodać kolejny paragon
+          Chcę dodać kolejny paragon
         </Link>
-        <Link
-          className="w-[100%] rounded-xl border border-[#383838] py-4 text-center"
-          href={'/homepage'}
-        >
-          na razie wystarczy
+        <Link className="button-white" href={'/homepage'}>
+          Wróć do moich statystyk
         </Link>
       </div>
     </div>

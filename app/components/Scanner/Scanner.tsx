@@ -198,9 +198,9 @@ export default function Scanner() {
             )}
 
             {loading && (
-              <div>
+              <div className="">
                 <div className="absolute left-0 top-0 h-screen w-full bg-black/50"></div>
-                <div className="absolute right-1/2 top-1/2 w-[90%] -translate-y-1/2 translate-x-1/2 bg-[#fff] p-3 text-center">
+                <div className="skeleton absolute right-1/2 top-1/2 w-[90%] -translate-y-1/2 translate-x-1/2 p-3 text-center">
                   trwa generowanie skanu paragonu
                 </div>
               </div>
@@ -221,7 +221,7 @@ export default function Scanner() {
                 </div>
                 {preview && (
                   <h3
-                    className={`${poppins.className} text-[20px] text-[#383838]`}
+                    className={`${poppins.className} my-8 text-[20px] text-[#383838]`}
                   >
                     Sprawdź czy dane są poprawne
                   </h3>
@@ -347,7 +347,7 @@ export default function Scanner() {
                 <div>
                   <button
                     onClick={handleSaveReceipt}
-                    className="mb-16 mt-[100px] w-[100%] rounded-lg bg-[#3F5FE3] py-4 text-center text-white"
+                    className="button-blue mb-8"
                   >
                     Zapisz
                   </button>
@@ -356,7 +356,7 @@ export default function Scanner() {
             )}
           </div>
         ) : (
-          <SuccesPage image={sendImage ? preview || '' : ''} />
+          <SuccesPage />
         )}
       </div>
     </>
