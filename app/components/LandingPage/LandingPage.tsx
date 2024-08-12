@@ -9,7 +9,7 @@ const LandingPage = () => {
     <div className="relative flex max-h-screen flex-col bg-[url(/landingpage.jpeg)] bg-cover">
       <div className="absolute inset-0 left-0 top-0 z-0 h-full w-full bg-[#8E8E8E] opacity-50"></div>
       <div className="flex h-[50vh]"></div>
-      <div className="z-10 flex h-[50vh] flex-col gap-5 p-4">
+      <div className="z-10 flex flex-col gap-5 p-4">
         <div className="mb-4">
           <LogoParagraph />
         </div>
@@ -23,16 +23,10 @@ const LandingPage = () => {
           </p>
         </div>
         <div className="flex flex-col gap-3">
-          <Link
-            className="w-[100%] rounded-lg bg-[#3F5FE3] py-4 text-center text-white"
-            href="/dashboard"
-          >
+          <Link className="button-blue" href="/dashboard">
             Zaloguj się
           </Link>
-          <Link
-            className="w-[100%] rounded-lg border bg-[#fff] py-4 text-center"
-            href="/sign-up"
-          >
+          <Link className="button-white" href="/sign-up">
             Zarejestuj się
           </Link>
         </div>
