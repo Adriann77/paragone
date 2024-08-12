@@ -6,8 +6,8 @@ const poppins = Poppins({ weight: '400', subsets: ['latin'] })
 
 const LandingPage = () => {
   return (
-    <div className="relative max-h-screen flex flex-col bg-[url(/landingpage.jpeg)] bg-cover ">
-      <div className="absolute left-0 inset-0 top-0 z-0 h-full w-full bg-[#8E8E8E] opacity-50"></div>
+    <div className="relative flex max-h-screen flex-col bg-[url(/landingpage.jpeg)] bg-cover">
+      <div className="absolute inset-0 left-0 top-0 z-0 h-full w-full bg-[#8E8E8E] opacity-50"></div>
       <div className="flex h-[50vh]"></div>
       <div className="z-10 flex h-[50vh] flex-col gap-5 p-4">
         <div className="mb-4">

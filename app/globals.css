@@ -3,10 +3,14 @@
 @tailwind utilities;
 
 .main {
-    max-width: 400px;
-    margin: 0 auto;
+  max-width: 400px;
+  margin: 0 auto;
 }
 
-html{
-    background: #160b0b;
+html {
+  background: #160b0b;
+}
+
+.button-blue {
+  @apply mb-16 text-white mt-[100px] w-[100%] rounded-lg bg-[#3F5FE3] py-4 text-center;
 }
