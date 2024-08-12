@@ -23,20 +23,18 @@ export async function analyzeReceipt(base64String: string): Promise<any> {
   console.log('Starting receipt analysis')
 
   try {
-    const response = await fetch(
-      'https://training.nerdbord.io/api/v1/openai/chat/completions',
-      {
-        method: 'POST',
-        headers: {
-          Authorization: `Bearer ${process.env.GPT_API_KEY}`,
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          model: 'gpt-4o',
-          messages: [
-            {
-              role: 'system',
-              content: `Jesteś asystentem analizującym paragony. Podaj informacje w następującym formacie JSON: 
+    const response = await fetch('https://api.openai.com/v1/chat/completions', {
+      method: 'POST',
+      headers: {
+        Authorization: `Bearer ${process.env.GPT_API_KEY}`,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        model: 'gpt-4o-mini',
+        messages: [
+          {
+            role: 'system',
+            content: `Jesteś asystentem analizującym paragony. Podaj informacje w następującym formacie JSON: 
               {
                 "DATA": "YYYY-MM-DD", 
                 "SKLEP": "tylko nazwa sklepu czyli jak masz Rossmann SDP SP. Z O.O. to tylko Rossmann ", 
@@ -49,21 +47,20 @@ export async function analyzeReceipt(base64String: string): Promise<any> {
               Jeśli jakiejś informacji brakuje, użyj "BRAK DANYCH" jako wartość. 
               Wybierz jedną kategorię z następującej listy: ${RECEIPT_CATEGORIES.join(', ')}.
               Jeśli nie rozpoznasz zdjęcia lub uznasz że zdjęcie nie jest paragonem, użyj "BRAK DANYCH" jako wartość.`,
-            },
-            {
-              role: 'user',
-              content: [
-                {
-                  type: 'text',
-                  text: 'Przeanalizuj ten paragon, podaj wymagane informacje, wybierz odpowiednią kategorię i napisz krótki opis zakupów.',
-                },
-                { type: 'image_url', image_url: { url: base64String } },
-              ],
-            },
-          ],
-        }),
-      }
-    )
+          },
+          {
+            role: 'user',
+            content: [
+              {
+                type: 'text',
+                text: 'Przeanalizuj ten paragon, podaj wymagane informacje, wybierz odpowiednią kategorię i napisz krótki opis zakupów.',
+              },
+              { type: 'image_url', image_url: { url: base64String } },
+            ],
+          },
+        ],
+      }),
+    })
 
     console.log('Received response from GPT-4o API')
 
@@ -126,7 +123,7 @@ export async function saveAnalyzedReceipt(receiptData: any): Promise<string> {
         description: receiptData.OPIS || 'N/A',
         category: receiptData.KATEGORIA || 'Inne',
         image: receiptData.image || '',
-        userId: user.id, // Dodanie userId
+        userId: user.id,
       },
     })
 
