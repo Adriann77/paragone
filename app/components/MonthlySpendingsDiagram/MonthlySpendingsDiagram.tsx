@@ -54,7 +54,7 @@ const MonthlySpendingsDiagram = () => {
       {
         data: [],
         backgroundColor: [],
-        borderWidth: 1,
+        borderWidth: 0,
         borderColor: '#fff',
         hoverBorderColor: '#fff',
       },
@@ -114,7 +114,7 @@ const MonthlySpendingsDiagram = () => {
           backgroundColor,
           borderWidth: 0,
           borderRadius: 10,
-          spacing: 10,
+          spacing: 5,
         },
       ],
     })
