@@ -21,6 +21,8 @@ import {
 } from '@fortawesome/free-solid-svg-icons'
 import { ExportIcon, FrontArrow } from '../Icons/Icons'
 import Papa from 'papaparse'
+import NoReceiptState from '../Homepage/NoReceiptState'
+import CurrentSaldo from '../CurrentSaldo/CurrentSaldo'
 
 interface Receipt {
   id: string
@@ -77,31 +79,40 @@ export default function ReceiptList() {
   }
 
   const exportToCSV = () => {
-    const data = filteredReceipts.map((receipt, index) => ({
-      'L.P': index + 1,
-      Kwota: receipt.total,
-      'Nazwa Sklepu': receipt.shop,
-      Kategoria: receipt.category,
-      Data: receipt.date,
-      'Numer paragonu': receipt.receiptNumber,
-      Opis: receipt.description,
-    }))
+    if (filteredReceipts.length !== 0) {
+      const data = filteredReceipts.map((receipt, index) => ({
+        'L.P': index + 1,
+        Kwota: receipt.total,
+        'Nazwa Sklepu': receipt.shop,
+        Kategoria: receipt.category,
+        Data: receipt.date,
+        'Numer paragonu': receipt.receiptNumber,
+        Opis: receipt.description,
+      }))
 
-    const csv = Papa.unparse(data, { header: true })
+      const csv = Papa.unparse(data, { header: true })
 
-    const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' })
-    const link = document.createElement('a')
-    const url = URL.createObjectURL(blob)
-    link.setAttribute('href', url)
-    link.setAttribute('download', 'export.csv')
-    link.style.visibility = 'hidden'
-    document.body.appendChild(link)
-    link.click()
-    document.body.removeChild(link)
+      const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' })
+      const link = document.createElement('a')
+      const url = URL.createObjectURL(blob)
+      link.setAttribute('href', url)
+      link.setAttribute('download', 'export.csv')
+      link.style.visibility = 'hidden'
+      document.body.appendChild(link)
+      link.click()
+      document.body.removeChild(link)
+    } else {
+      alert('Nie ma paragonów')
+    }
+  }
+
+  if (filteredReceipts.length === 0) {
+    return <NoReceiptState />
   }
 
   return (
     <>
+      <CurrentSaldo />
       <div
         style={{
           boxShadow: '0px 4px 12.3px 0px rgba(0, 0, 0, 0.25)',

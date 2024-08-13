@@ -7,7 +7,7 @@ import {
 } from '@/app/actions/receiptActions'
 import { Poppins } from 'next/font/google'
 import SuccesPage from '../SuccesPage/SuccesPage'
-import { BackIcon } from '../Icons/Icons'
+
 import TopNavbar from '../TopNavbar/TopNavbar'
 
 const poppins = Poppins({ weight: '400', subsets: ['latin'] })
@@ -44,6 +44,7 @@ export default function Scanner() {
   const [sendImage, setSendImage] = useState<boolean>(false)
   const [successMessage, setSuccessMessage] = useState<boolean>(false)
   const [showFinalPage, setShowFinalPage] = useState<boolean>(false)
+  const [loading2, setLoading2] = useState<boolean>(false)
 
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
@@ -94,6 +95,8 @@ export default function Scanner() {
       return
     }
 
+    setLoading2(true)
+
     try {
       const payload = {
         ...result,
@@ -102,7 +105,7 @@ export default function Scanner() {
 
       const savedReceiptId = await saveAnalyzedReceipt(payload)
       console.log('Receipt saved with ID:', savedReceiptId)
-
+      setLoading2(false)
       setShowFinalPage(true)
     } catch (error) {
       console.error('Failed to save receipt:', error)
@@ -119,7 +122,6 @@ export default function Scanner() {
 
   return (
     <>
-      <TopNavbar backIconHref="nl" position="absolute" />
       <div
         className={`${poppins.className} max-w-screen relative mx-auto flex min-h-screen flex-col items-center justify-center p-4 ${result ? 'bg-[#fff]' : ''}`}
       >
@@ -127,7 +129,8 @@ export default function Scanner() {
           <div className="flex flex-col items-center justify-center">
             {!result && (
               <div className="">
-                <h1 className="mb-4 text-left text-[22px] text-[#383838]">
+                <TopNavbar backIconHref="nl" position="absolute" />
+                <h1 className="mb-4 mt-16 text-left text-[22px] text-[#383838]">
                   Zrób zdjęcie swojego paragonu.
                 </h1>
                 <div>
@@ -208,17 +211,6 @@ export default function Scanner() {
 
             {result && (
               <div className="mt-16 flex h-full flex-col">
-                <div>
-                  <button
-                    className="absolute left-5 top-9 z-10"
-                    onClick={() => {
-                      setResult(null)
-                      setPreview(null)
-                    }}
-                  >
-                    <BackIcon />
-                  </button>
-                </div>
                 {preview && (
                   <h3
                     className={`${poppins.className} my-8 text-[20px] text-[#383838]`}
@@ -227,7 +219,12 @@ export default function Scanner() {
                   </h3>
                 )}
                 <div>
-                  <div className="flex max-w-[364px] flex-col gap-3">
+                  <TopNavbar
+                    backIconHref="dashboard"
+                    position="absolute"
+                    refresh={true}
+                  />
+                  <div className="mt-10 flex max-w-[364px] flex-col gap-3">
                     <div className="relative flex justify-between">
                       <div className="flex w-[48%] flex-col">
                         <label>Kwota*</label>
@@ -347,11 +344,22 @@ export default function Scanner() {
                 <div>
                   <button
                     onClick={handleSaveReceipt}
-                    className="button-blue mb-8"
+                    className={`button-blue mb-8 ${loading2 && 'skeleton bg-[gray]'} flex items-center justify-center gap-2`}
                   >
-                    Zapisz
+                    {!loading2 ? 'Zapisz ' : 'Zapisywanie'}
+                    {loading2 && (
+                      <span className="loading loading-bars loading-xs"></span>
+                    )}
                   </button>
                 </div>
+                {loading2 && (
+                  <div className="">
+                    <div className="absolute left-0 top-0 h-full w-full bg-black/50"></div>
+                    <div className="skeleton absolute right-1/2 top-1/2 w-[90%] -translate-y-1/2 translate-x-1/2 p-3 text-center">
+                      trwa zapisywanie paragonu
+                    </div>
+                  </div>
+                )}
               </div>
             )}
           </div>

@@ -5,21 +5,30 @@ import Link from 'next/link'
 interface Props {
   backIconHref: string
   position: string
+  refresh?: boolean
 }
 
-const TopNavbar = ({ backIconHref, position }: Props) => {
+const TopNavbar = ({ backIconHref, position, refresh = false }: Props) => {
   return (
     <div
-      className={`z-10 flex w-full max-w-[400px] items-center justify-between p-2 ${position} top-7`}
+      className={`z-10 flex w-full max-w-[400px] items-center justify-between p-4 ${position} top-7`}
     >
       <div className="ml-5">
         {backIconHref.length > 3 && (
-          <Link href={`/${backIconHref}`}>
+          <Link
+            onClick={(e) => {
+              if (refresh) {
+                e.preventDefault()
+                window.location.reload()
+              }
+            }}
+            href={`/${backIconHref}`}
+          >
             <BackIcon />
           </Link>
         )}
       </div>
-      <div className="mr-5">
+      <div className="mr-10">
         <Link href={'/homepage'}>
           <XIcon />
         </Link>

@@ -18,6 +18,9 @@ import {
   faPalette,
   faQuestion,
 } from '@fortawesome/free-solid-svg-icons'
+import { EmptyReceiptStateIcon } from '../Icons/LargerImages'
+import { BlackLogoParagraph } from '../Icons/Icons'
+import Link from 'next/link'
 
 const RECEIPT_CATEGORIES = [
   { category: 'Spożywcze', icon: faUtensils },
@@ -65,6 +68,24 @@ const CategoriesList = () => {
 
   const handleCategoryClick = (category: string) => {
     router.push(`/categories/${category}`)
+  }
+
+  if (categories.length === 0) {
+    return (
+      <div className="flex flex-col items-center gap-8 p-4 pt-[128px]">
+        <div className="">
+          <BlackLogoParagraph />
+        </div>
+        <p className="text-xl">
+          Brak kategorii do wyświetlenia, dodaj nowy paragon oraz wybierz
+          kategorie a wyświetli się ona tutaj.
+        </p>
+        <EmptyReceiptStateIcon />
+        <Link className="button-blue" href={'/dashboard'}>
+          Zeskanuj paragon
+        </Link>
+      </div>
+    )
   }
 
   return (
