@@ -211,5 +211,5 @@ export async function getTotalSpent() {
     return acc + amount
   }, 0)
 
-  return total
+  return parseFloat(total.toFixed(2))
 }

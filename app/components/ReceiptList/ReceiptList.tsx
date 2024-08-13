@@ -77,27 +77,31 @@ export default function ReceiptList() {
   }
 
   const exportToCSV = () => {
-    const data = filteredReceipts.map((receipt, index) => ({
-      'L.P': index + 1,
-      Kwota: receipt.total,
-      'Nazwa Sklepu': receipt.shop,
-      Kategoria: receipt.category,
-      Data: receipt.date,
-      'Numer paragonu': receipt.receiptNumber,
-      Opis: receipt.description,
-    }))
+    if (filteredReceipts.length !== 0) {
+      const data = filteredReceipts.map((receipt, index) => ({
+        'L.P': index + 1,
+        Kwota: receipt.total,
+        'Nazwa Sklepu': receipt.shop,
+        Kategoria: receipt.category,
+        Data: receipt.date,
+        'Numer paragonu': receipt.receiptNumber,
+        Opis: receipt.description,
+      }))
 
-    const csv = Papa.unparse(data, { header: true })
+      const csv = Papa.unparse(data, { header: true })
 
-    const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' })
-    const link = document.createElement('a')
-    const url = URL.createObjectURL(blob)
-    link.setAttribute('href', url)
-    link.setAttribute('download', 'export.csv')
-    link.style.visibility = 'hidden'
-    document.body.appendChild(link)
-    link.click()
-    document.body.removeChild(link)
+      const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' })
+      const link = document.createElement('a')
+      const url = URL.createObjectURL(blob)
+      link.setAttribute('href', url)
+      link.setAttribute('download', 'export.csv')
+      link.style.visibility = 'hidden'
+      document.body.appendChild(link)
+      link.click()
+      document.body.removeChild(link)
+    } else {
+      alert('Nie ma paragonów')
+    }
   }
 
   return (
