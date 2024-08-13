@@ -123,10 +123,10 @@ export default function Scanner() {
   return (
     <>
       <div
-        className={`${poppins.className} max-w-screen relative mx-auto flex min-h-screen flex-col items-center justify-center p-4 ${result ? 'bg-[#fff]' : ''}`}
+        className={`${poppins.className} max-w-screen relative mx-auto flex min-h-screen flex-col items-center justify-center ${result ? 'bg-[#fff]' : ''}`}
       >
         {!showFinalPage ? (
-          <div className="flex flex-col items-center justify-center">
+          <div className="flex flex-col items-center justify-center p-4">
             {!result && (
               <div className="">
                 <TopNavbar backIconHref="nl" position="absolute" />
@@ -138,7 +138,7 @@ export default function Scanner() {
                     <img
                       //@ts-ignore
                       src={preview}
-                      className="mb-6 h-[418px] w-[360px] rounded-lg border-4 border-dashed border-[#3f5fe3]"
+                      className="mb-6 h-[50vh] w-full rounded-lg border-4 border-dashed border-[#3f5fe3]"
                       alt=""
                     />
                   </div>

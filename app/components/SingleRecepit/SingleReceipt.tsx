@@ -6,6 +6,7 @@ import { getReceiptById, deleteReceipt } from '@/app/actions/receiptActions'
 import TopNavbar from '../TopNavbar/TopNavbar'
 import Link from 'next/link'
 import { Poppins } from 'next/font/google'
+import Loader from '../Loader/Loader'
 
 interface Receipt {
   id: string
@@ -55,7 +56,7 @@ export default function SingleReceipt() {
   }
 
   if (!receipt) {
-    return <div>Loading...</div>
+    return <Loader />
   }
 
   return (

@@ -133,7 +133,7 @@ const MonthlySpendingsDiagram = () => {
           }}
           className="m-4 rounded-xl bg-[#FFF] p-2"
         >
-          <h3 className="p-2 text-center text-2xl">Miesięczne wydatki</h3>
+          <h3 className="mb-12 p-2 text-center text-2xl">Miesięczne wydatki</h3>
           {chartData.labels.length > 0 ? (
             <div className="relative">
               <Doughnut
@@ -144,28 +144,50 @@ const MonthlySpendingsDiagram = () => {
                       display: false,
                     },
                     datalabels: {
-                      color: '#fff',
-                      formatter: (value) => {
+                      color: '#000', // Set label text color
+                      formatter: (value, context) => {
                         const percentage = (
                           (value / totalAmount) *
                           100
                         ).toFixed(0)
+                        const label =
+                          context.chart.data.labels?.[context.dataIndex] || ''
+                        const backgroundColor = Array.isArray(
+                          context.dataset.backgroundColor
+                        )
+                          ? context.dataset.backgroundColor[
+                              context.dataIndex
+                            ] || '#000'
+                          : context.dataset.backgroundColor || '#000'
+
                         return `${percentage}%`
                       },
                       font: {
                         weight: 'bold',
                         size: 10,
                       },
-
-                      borderRadius: 8,
+                      anchor: 'end',
+                      align: 'end',
+                      offset: 5, // Space between the segment and the label
+                      borderRadius: 5,
+                      borderWidth: 1,
+                      borderColor: (context) => {
+                        return Array.isArray(context.dataset.backgroundColor)
+                          ? context.dataset.backgroundColor[
+                              context.dataIndex
+                            ] || '#000'
+                          : context.dataset.backgroundColor || '#000'
+                      },
                     },
                   },
-                  cutout: '75%',
+                  cutout: '90%',
                   responsive: true,
+
                   maintainAspectRatio: false,
                 }}
                 className="h-64"
               />
+
               <div className="absolute inset-0 flex items-center justify-center">
                 <h2 className="text-2xl font-semibold">
                   {totalAmount.toFixed(2)} zł
@@ -175,36 +197,40 @@ const MonthlySpendingsDiagram = () => {
           ) : (
             <div className="text-center">Brak danych do wyświetlenia</div>
           )}
-          <div className="mt-6">
-            {chartData.labels.map((label: string, index: number) => (
-              <div
-                key={label}
-                className="flex items-center justify-between p-2"
-              >
-                <div className="flex items-center justify-around">
-                  <div
-                    className="mr-2 h-4 w-4 rounded-full"
-                    style={{
-                      backgroundColor:
-                        chartData.datasets[0].backgroundColor[index],
-                    }}
-                  ></div>
-                  <span className="text-lg">{label}</span>
+          <div className="mt-12">
+            {chartData.labels
+              .map((label: string, index: number) => ({
+                label,
+                color: chartData.datasets[0].backgroundColor[index],
+                percentage: (
+                  (chartData.datasets[0].data[index] / totalAmount) *
+                  100
+                ).toFixed(0),
+                value: chartData.datasets[0].data[index].toFixed(2),
+              }))
+              .sort(
+                (a: any, b: any) =>
+                  parseFloat(b.percentage) - parseFloat(a.percentage)
+              )
+              //@ts-ignore
+              .map(({ label, color, percentage, value }, index) => (
+                <div
+                  key={label}
+                  className="flex items-center justify-between p-2"
+                >
+                  <div className="flex items-center">
+                    <div
+                      className="mr-2 h-4 w-4 rounded-full"
+                      style={{ backgroundColor: color }}
+                    ></div>
+                    <span className="text-lg">{label}</span>
+                  </div>
+                  <div className="flex w-[50%] items-center justify-between">
+                    <span className="text-lg">{percentage}%</span>
+                    <span className="text-lg">{value} zł</span>
+                  </div>
                 </div>
-                <div className="flex gap-12 text-center">
-                  <span className="text-lg">
-                    {(
-                      (chartData.datasets[0].data[index] / totalAmount) *
-                      100
-                    ).toFixed(0)}
-                    %
-                  </span>
-                  <span className="text-lg">
-                    {chartData.datasets[0].data[index].toFixed(2)} zł
-                  </span>
-                </div>
-              </div>
-            ))}
+              ))}
           </div>
         </div>
       )}

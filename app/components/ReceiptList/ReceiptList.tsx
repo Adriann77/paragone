@@ -23,6 +23,7 @@ import { ExportIcon, FrontArrow } from '../Icons/Icons'
 import Papa from 'papaparse'
 import NoReceiptState from '../Homepage/NoReceiptState'
 import CurrentSaldo from '../CurrentSaldo/CurrentSaldo'
+import Loader from '../Loader/Loader'
 
 interface Receipt {
   id: string
@@ -104,6 +105,10 @@ export default function ReceiptList() {
     } else {
       alert('Nie ma paragonów')
     }
+  }
+
+  if (loading) {
+    return <Loader />
   }
 
   if (filteredReceipts.length === 0) {
