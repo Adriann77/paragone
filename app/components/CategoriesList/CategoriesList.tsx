@@ -78,7 +78,7 @@ const CategoriesList = () => {
         </div>
         <p className="text-xl">
           Brak kategorii do wyświetlenia, dodaj nowy paragon oraz wybierz
-          kategorie a one wyświtelą się tutaj.
+          kategorie a wyświetli się ona tutaj.
         </p>
         <EmptyReceiptStateIcon />
         <Link className="button-blue" href={'/dashboard'}>

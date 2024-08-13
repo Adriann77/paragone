@@ -21,6 +21,8 @@ import {
 } from '@fortawesome/free-solid-svg-icons'
 import { ExportIcon, FrontArrow } from '../Icons/Icons'
 import Papa from 'papaparse'
+import NoReceiptState from '../Homepage/NoReceiptState'
+import CurrentSaldo from '../CurrentSaldo/CurrentSaldo'
 
 interface Receipt {
   id: string
@@ -104,8 +106,13 @@ export default function ReceiptList() {
     }
   }
 
+  if (filteredReceipts.length === 0) {
+    return <NoReceiptState />
+  }
+
   return (
     <>
+      <CurrentSaldo />
       <div
         style={{
           boxShadow: '0px 4px 12.3px 0px rgba(0, 0, 0, 0.25)',

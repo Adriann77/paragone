@@ -20,6 +20,13 @@ const Homepage = () => {
     fetchTotal()
   }, [])
 
+  if (total === 0) {
+    return (
+      <div>
+        <NoReceiptState />
+      </div>
+    )
+  }
   if (total === null) {
     return (
       <div className="flex flex-col items-center justify-center gap-14 py-14">
@@ -42,13 +49,6 @@ const Homepage = () => {
             <div className="skeleton h-4 w-52"></div>
           </div>
         </div>
-      </div>
-    )
-  }
-  if (total === 0) {
-    return (
-      <div>
-        <NoReceiptState />
       </div>
     )
   }
