@@ -21,6 +21,7 @@ import {
 } from '@fortawesome/free-solid-svg-icons'
 import { FrontArrow } from '@/app/components/Icons/Icons'
 import TopNavbar from '@/app/components/TopNavbar/TopNavbar'
+import Loader from '@/app/components/Loader/Loader'
 
 interface Receipt {
   id: string
@@ -52,14 +53,16 @@ const CATEGORY_ICONS: { [key: string]: any } = {
 
 const CategoryReceipts = () => {
   const [receipts, setReceipts] = useState<Receipt[]>([])
-  const [loading, setLoading] = useState<boolean>(true)
+  const [loading, setLoading] = useState<boolean>(false)
   const router = useRouter()
   const pathname = usePathname()
   const category = decodeURIComponent(pathname.split('/').pop() || '')
 
   useEffect(() => {
     const fetchReceipts = async () => {
+      setLoading(true)
       try {
+        setLoading(false)
         const allReceipts = await getReceiptsForUser()
         const filteredReceipts = allReceipts.filter(
           (receipt) => receipt.category === category
@@ -76,6 +79,10 @@ const CategoryReceipts = () => {
 
   const handleReceiptClick = (receiptId: string) => {
     router.push(`/receipt/${receiptId}`)
+  }
+
+  if (!receipts) {
+    return <Loader />
   }
 
   return (

@@ -21,6 +21,7 @@ import {
 import { EmptyReceiptStateIcon } from '../Icons/LargerImages'
 import { BlackLogoParagraph } from '../Icons/Icons'
 import Link from 'next/link'
+import Loader from '../Loader/Loader'
 
 const RECEIPT_CATEGORIES = [
   { category: 'Spożywcze', icon: faUtensils },
@@ -42,10 +43,12 @@ const CategoriesList = () => {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     { category: string; icon: any }[]
   >([])
+  const [loader, setLoader] = useState<boolean>(false)
   const router = useRouter()
 
   useEffect(() => {
     const fetchCategories = async () => {
+      setLoader(true)
       try {
         const receipts = await getReceiptsForUser()
         const usedCategories = new Set(
@@ -59,6 +62,7 @@ const CategoriesList = () => {
             a.category.localeCompare(b.category)
           )
         )
+        setLoader(false)
       } catch (error) {
         console.error('Error fetching categories:', error)
       }
@@ -68,6 +72,10 @@ const CategoriesList = () => {
 
   const handleCategoryClick = (category: string) => {
     router.push(`/categories/${category}`)
+  }
+
+  if (loader) {
+    return <Loader />
   }
 
   if (categories.length === 0) {

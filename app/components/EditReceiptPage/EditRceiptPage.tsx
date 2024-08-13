@@ -6,6 +6,7 @@ import { getReceiptById, updateReceipt } from '@/app/actions/receiptActions'
 import { Poppins } from 'next/font/google'
 import Link from 'next/link'
 import TopNavbar from '../TopNavbar/TopNavbar'
+import Loader from '../Loader/Loader'
 
 interface Receipt {
   id: string
@@ -63,14 +64,14 @@ export default function EditReceipt() {
   }
 
   if (!receipt) {
-    return <div>Loading...</div>
+    return <Loader />
   }
 
   return (
     <div className={`py-8 ${poppins.className} min-h-screen bg-[#fff]`}>
       <TopNavbar position="block" backIconHref={`receipt/${id}`} />
       <h3
-        className={`${poppins.className} text-center text-[20px] text-[#383838]`}
+        className={`${poppins.className} pt-12 text-center text-[20px] text-[#383838]`}
       >
         Sprawdź czy dane są poprawne
       </h3>
